@@ -1,0 +1,3 @@
+checkout 
+  repos/tailwind/t1d/food-mockup for floating input lables using tailwind
+  repos/projects/css-examples/form-input for floating input lables using css
