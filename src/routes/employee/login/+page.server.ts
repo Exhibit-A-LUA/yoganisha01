@@ -1,4 +1,12 @@
 import { redirect } from "@sveltejs/kit";
+import type { PageServerLoad } from "./$types.js";
+
+export const load = (async ( { locals}) => {
+  if (locals.pocketBase.authStore.isValid) {
+    throw redirect(303, "/");
+  }
+  return {}
+}) satisfies PageServerLoad;
 
 export const actions = {
   default: async ({ locals, request}) => {

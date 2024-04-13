@@ -41,8 +41,6 @@ export const handle = async ({event, resolve}) => {
     throw fail(500);
   }
 
-  pb.set(event.locals.pocketBase);
-
   const response =  await resolve(event);
 
   response.headers.set(

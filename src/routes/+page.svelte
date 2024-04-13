@@ -1,23 +1,24 @@
 <script lang="ts">
+  // import { record } from "zod";
   import type { PageData } from "./$types";
 
   export let data: PageData;
 </script>
 
-<div>
+<div class="hljs">
   {#if !data.authenticated}
     Not Authenticated
   {:else if data.authCollection === "students"}
-    student
+    student {data.name} {data.record.city}
   {:else}
-    employee
+    employee {data.name} {data.record.city}
   {/if}
 
   <!-- {JSON.stringify(data)} -->
 </div>
 
-<style>
+<!-- <style>
   :global(body) {
     background-color: black;
   }
-</style>
+</style> -->

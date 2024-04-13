@@ -17,8 +17,6 @@ const studentSchema = z.object({
   })
 })
 
-
-
 export const actions = {
   default: async ( {locals, request }) => {
     if (locals.pocketBase.authStore.isValid) {
