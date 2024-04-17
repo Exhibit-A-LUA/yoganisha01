@@ -19,6 +19,7 @@ export const handle = async ({event, resolve}) => {
     await event.locals.pocketBase.collection("students").authRefresh();
   } catch (error) {
     let validated = false
+    
     try {
       await event.locals.pocketBase.collection("employees").authRefresh();
       validated = true;
@@ -27,7 +28,6 @@ export const handle = async ({event, resolve}) => {
     }
     if (!validated)
       event.locals.pocketBase.authStore.clear();
-    
   }
 
   event.locals.pocketBaseAdmin = new PocketBase('http://127.0.0.1:8090');

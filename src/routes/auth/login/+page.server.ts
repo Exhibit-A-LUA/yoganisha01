@@ -1,46 +1,39 @@
 import { redirect } from "@sveltejs/kit";
+import { z } from "zod";
+
+const studentSchema = z.object({
+  email : z.string().email(),
+  password : z.string().min(8)
+})
 
 export const actions = {
   default: async ({ locals, request}) => {
+    // if already logged in redirect to /
     if (locals.pocketBase.authStore.isValid) {
       throw redirect(303, "/");
     }
 
     let formData = await request.formData();
-
-    let email = formData.get("email");
-    let password = formData.get("password");
+    let formDataObject = Object.fromEntries(formData)
+    let validatedFormData = studentSchema.parse(formDataObject)
 
     try {
-      if (typeof email !== "string") {
-        throw new Error("Invalid email")
-      }
-      if (email.length < 1) {
-        throw new Error("Email cannot be empty")
-      }
-
-      if (typeof password !== "string") {
-        throw new Error("Invalid password")
-      }
-      if (password.length < 8) {
-        throw new Error("Password cannot be empty")
-      }
 
       await locals.pocketBase
         .collection("students")
-        .authWithPassword(email, password);
+        .authWithPassword(validatedFormData.email, validatedFormData.password);
 
     } catch (error) {
       if (error instanceof Error) {
         return {
-          email: typeof email !== "string" ? "" : email,
-          password: typeof password !== "string" ? "" : password,
+          email: typeof validatedFormData.email !== "string" ? "" : validatedFormData.email,
+          password: typeof validatedFormData.password !== "string" ? "" : validatedFormData.password,
           message: error.message
         }
       }
       return {
-        email: typeof email !== "string" ? "" : email,
-        password: typeof password !== "string" ? "" : password,
+        email: typeof validatedFormData.email !== "string" ? "" : validatedFormData.email,
+        password: typeof validatedFormData.password !== "string" ? "" : validatedFormData.password,
         message: "Unknown error occured while trying to log in"
       }
 

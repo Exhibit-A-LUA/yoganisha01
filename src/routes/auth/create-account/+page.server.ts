@@ -19,6 +19,7 @@ const studentSchema = z.object({
 
 export const actions = {
   default: async ( {locals, request }) => {
+    // if already logged in redirect to /
     if (locals.pocketBase.authStore.isValid) {
       throw redirect(303, "/");
     }
@@ -43,12 +44,14 @@ export const actions = {
         throw new Error("Name is already taken");
       }
 
+      // create new student record
       await locals.pocketBaseAdmin.collection("students").create({
         ...validatedFormData,
         passwordConfirm: validatedFormData.password,
         emailVisibility: false,
       });
 
+      // log the student in
       await locals.pocketBase
         .collection("students")
         .authWithPassword(validatedFormData.email, validatedFormData.password);

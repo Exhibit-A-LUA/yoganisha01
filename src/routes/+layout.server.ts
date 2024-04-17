@@ -1,9 +1,6 @@
 // +layout.server.ts - in routes
 
-
 export const load = async ({locals}) => {
-
-
 
   // console.log(locals.pocketBase.authStore.model);
   

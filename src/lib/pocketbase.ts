@@ -1,3 +1,5 @@
+// To access pocketbase in the browser
+
 import PocketBase from "pocketbase"
 import { browser } from "$app/environment";
 import { writable } from "svelte/store";
