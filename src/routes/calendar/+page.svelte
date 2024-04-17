@@ -15,17 +15,22 @@
 
 {#each data.records as appointment}
   <div class="appointment">
-    {appointment.expand?.student.name} with
-    {appointment.expand?.instructor.name}
-    <br />
-    at {appointment.startTime.toString().slice(11, 16)} on {appointment.startTime
-      .toString()
-      .slice(0, 10)}
-    <br />
-    is {appointment.status}
-    <br />
-    {appointment.paymentStatus}
-    {appointment.paymentDate.toString().slice(0, 10)}
+    <details>
+      <summary>
+        {appointment.expand?.student.name} with
+        {appointment.expand?.instructor.name}
+      </summary>
+      <div class="appointment-details">
+        at {appointment.startTime.toString().slice(11, 16)} on {appointment.startTime
+          .toString()
+          .slice(0, 10)}
+        <br />
+        is {appointment.status}
+        <br />
+        {appointment.paymentStatus}
+        {appointment.paymentDate.toString().slice(0, 10)}
+      </div>
+    </details>
   </div>
 {/each}
 
@@ -48,9 +53,16 @@
   .appointment {
     border: 1px solid black;
     font-size: small;
-    height: 80px;
+    height: auto;
     width: 200px;
     background-color: rgb(163, 241, 231);
     color: black;
+  }
+  details summary {
+    color: black;
+  }
+
+  .appointment-details {
+    color: blue;
   }
 </style>
